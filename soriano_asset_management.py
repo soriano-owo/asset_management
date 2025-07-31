@@ -4,10 +4,9 @@ import pandas as pd
 import altair as alt
 from datetime import datetime
 
+# Configuración
 st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
-
-st.title("Soriano Asset Management Co.")
-
+st.title("Visor Financiero Estilo Bloomberg")
 
 # Inputs
 ticker = st.text_input("Ticker:", value="AAPL")
@@ -20,28 +19,27 @@ if ticker:
     df = df[["Close"]].dropna().reset_index()
 
     if not df.empty:
-        # Crear gráfico Altair (más customizable que st.line_chart)
+        # Gráfico Altair personalizado
         chart = alt.Chart(df).mark_line(
             color="#00ffcc",  # color estilo Bloomberg
             strokeWidth=2
         ).encode(
-            x='Date:T',
-            y='Close:Q',
+            x=alt.X('Date:T', axis=alt.Axis(title='Fecha')),
+            y=alt.Y('Close:Q', axis=alt.Axis(title='Precio')),
             tooltip=["Date:T", "Close:Q"]
         ).properties(
             width=1000,
             height=400,
             title=f"{ticker} - Precio de Cierre"
         ).configure_view(
-            strokeWidth=0
+            stroke=None,
+            fill='#1e1e1e'  # Fondo oscuro
         ).configure_axis(
             labelColor='white',
             titleColor='white',
             gridColor='#333'
         ).configure_title(
             color='white'
-        ).configure_background(
-            color='#1e1e1e'
         )
 
         st.altair_chart(chart, use_container_width=True)
