@@ -28,7 +28,7 @@ if ticker:
             y=alt.Y('Close:Q', axis=alt.Axis(title='Precio')),
             tooltip=["Date:T", "Close:Q"]
         ).properties(
-            width=1000,
+            width=800,
             height=400,
             title=f"{ticker} - Precio de Cierre"
         ).configure_view(
@@ -42,7 +42,7 @@ if ticker:
             color='white'
         )
 
-        st.altair_chart(chart, use_container_width=True)
+        st.altair_chart(chart)
         st.dataframe(df.tail())
     else:
         st.warning("No se encontraron datos para ese ticker.")
