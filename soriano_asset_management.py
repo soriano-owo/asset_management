@@ -6,7 +6,7 @@ from datetime import datetime
 
 # Configuración
 st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
-st.title("Visor Financiero Estilo Bloomberg")
+st.title("Soriano Asset Management Co.")
 
 # Inputs
 ticker = st.text_input("Ticker:", value="AAPL")
