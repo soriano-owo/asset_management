@@ -42,7 +42,8 @@ def calcular_sortino_ratio(returns, risk_free_rate=0.02, target_return=0):
     return np.sqrt(252) * excess_returns.mean() / downside_deviation if downside_deviation != 0 else np.nan
 
 # Configuración de la página
-st.set_page_config(page_title="Analizador de Portafolio", layout="wide")
+st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
+
 st.sidebar.title("Analizador de Portafolio de Inversión")
 
 # Entrada de símbolos y pesos
@@ -152,8 +153,6 @@ else:
             fig_comparison.add_trace(go.Bar(x=ventanas, y=row, name=index))
         fig_comparison.update_layout(title='Comparación de Rendimientos', xaxis_title='Días', yaxis_title='Rendimiento', barmode='group')
         st.plotly_chart(fig_comparison)
-
-
 
 
 
