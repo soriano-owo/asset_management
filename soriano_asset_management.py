@@ -43,7 +43,7 @@ if ticker:
         )
 
         # Centrar el gráfico visualmente
-        col1, col2, col3 = st.columns([1, 2, 1])
+        col1, col2, col3 = st.columns([ 2, 1])
         with col2:
             st.altair_chart(chart, use_container_width=False)
 
