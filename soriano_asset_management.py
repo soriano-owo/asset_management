@@ -15,7 +15,7 @@ def calcular_sortino_ratio(returns, risk_free_rate=0.02, target_return=0):
     downside_deviation = np.sqrt(np.mean(downside_returns**2))
     return np.sqrt(252) * excess_returns.mean() / downside_deviation if downside_deviation != 0 else np.nan
 
-# Forzar fondo oscuro de la app
+# Forzar fondo oscuro
 st.markdown(
     """
     <style>
@@ -28,13 +28,13 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Configuración de la página
+# Configuración página
 st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
 st.sidebar.title("Soriano Asset Management Co.")
 st.title("Visor de datos financieros")
 
-# Input ticker y fechas
-ticker = st.text_input("Ingresa el ticker del activo (ej. AAPL, BTC-USD, ^GSPC):", value="AAPL")
+# Inputs
+ticker = st.text_input("Ingresa el ticker del activo (ej. AAPL, BTC-USD, ^GSPC):", "AAPL")
 start_date = st.date_input("Fecha de inicio", pd.to_datetime("2020-01-01"))
 end_date = st.date_input("Fecha de fin", pd.to_datetime("today"))
 
@@ -44,9 +44,25 @@ if ticker:
         if df.empty:
             st.warning("No se encontraron datos para ese ticker y fechas.")
         else:
-            # Solo tomamos las filas donde Close no sea NaN
             df = df[df["Close"].notna()]
-            
+
+            # Calcular retornos diarios para métricas
+            df["Daily Return"] = df["Close"].pct_change().dropna()
+
+            st.subheader(f"Datos históricos y métricas para: {ticker}")
+            st.line_chart(df["Close"])
+
+            # Mostrar estadísticas básicas de retorno
+            st.write(df["Daily Return"].describe())
+
+            # Calcular y mostrar métricas financieras
+            sharpe = calcular_sharpe_ratio(df["Daily Return"])
+            sortino = calcular_sortino_ratio(df["Daily Return"])
+
+            st.metric("Sharpe Ratio", f"{sharpe:.2f}")
+            st.metric("Sortino Ratio", f"{sortino:.2f}")
+
+            # Gráfico personalizado con plotly dark
             fig = go.Figure()
             fig.add_trace(go.Scatter(
                 x=df.index,
@@ -68,6 +84,5 @@ if ticker:
                 legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color="white"))
             )
             st.plotly_chart(fig, use_container_width=True)
-
     except Exception as e:
         st.error(f"Ocurrió un error al obtener los datos: {e}")
