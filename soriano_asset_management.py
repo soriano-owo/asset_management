@@ -15,18 +15,6 @@ def calcular_sortino_ratio(returns, risk_free_rate=0.02, target_return=0):
     downside_deviation = np.sqrt(np.mean(downside_returns**2))
     return np.sqrt(252) * excess_returns.mean() / downside_deviation if downside_deviation != 0 else np.nan
 
-# Forzar fondo oscuro
-st.markdown(
-    """
-    <style>
-    .main {
-        background-color: #1e1e1e;
-        color: white;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
 
 # Configuración página
 st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
