@@ -28,7 +28,7 @@ if ticker:
             y=alt.Y('Close:Q', axis=alt.Axis(title='Precio')),
             tooltip=["Date:T", "Close:Q"]
         ).properties(
-            width=800,
+            width=600,
             height=400,
             title=f"{ticker} - Precio de Cierre"
         ).configure_view(
