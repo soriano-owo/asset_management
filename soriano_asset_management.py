@@ -41,50 +41,33 @@ end_date = st.date_input("Fecha de fin", pd.to_datetime("today"))
 if ticker:
     try:
         df = yf.download(ticker, start=start_date, end=end_date)
-        if not df.empty:
-            st.subheader(f"Datos históricos para: {ticker}")
-
-            # Cálculo de retornos diarios
-            df["Daily Return"] = df["Close"].pct_change()
-
-            # Estadísticas básicas
-            st.subheader("Estadísticas básicas")
-            st.write(df["Daily Return"].describe())
-
-            # Cálculo métricas financieras
-            sharpe = calcular_sharpe_ratio(df["Daily Return"].dropna())
-            sortino = calcular_sortino_ratio(df["Daily Return"].dropna())
-
-            st.metric("Sharpe Ratio", f"{sharpe:.2f}")
-            st.metric("Sortino Ratio", f"{sortino:.2f}")
-
-            # Gráfico Plotly con estilo Bloomberg
+        if df.empty:
+            st.warning("No se encontraron datos para ese ticker y fechas.")
+        else:
+            # Solo tomamos las filas donde Close no sea NaN
+            df = df[df["Close"].notna()]
+            
             fig = go.Figure()
             fig.add_trace(go.Scatter(
-                x=df.index, y=df["Close"],
-                name="Precio de cierre",
+                x=df.index,
+                y=df["Close"],
+                mode='lines',
+                name='Precio Cierre',
                 line=dict(color="#00ffcc", width=2)
             ))
-
             fig.update_layout(
+                template="plotly_dark",
+                plot_bgcolor="#1e1e1e",
+                paper_bgcolor="#1e1e1e",
+                font=dict(color="white"),
                 title=f"{ticker} - Precio de Cierre",
                 xaxis_title="Fecha",
                 yaxis_title="Precio",
-                font=dict(color="white"),
-                plot_bgcolor="#1e1e1e",
-                paper_bgcolor="#1e1e1e",
                 xaxis=dict(gridcolor="#333333", zerolinecolor="#444444"),
                 yaxis=dict(gridcolor="#333333", zerolinecolor="#444444"),
                 legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color="white"))
             )
+            st.plotly_chart(fig, use_container_width=True)
 
-            st.plotly_chart(fig, use_container_width=True, theme="streamlit", height=600)
-
-            # Mostrar últimos datos en tabla
-            st.subheader("Datos recientes")
-            st.dataframe(df.tail())
-
-        else:
-            st.warning("No se encontraron datos. Verifica el ticker o las fechas.")
     except Exception as e:
         st.error(f"Ocurrió un error al obtener los datos: {e}")
