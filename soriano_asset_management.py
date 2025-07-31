@@ -1,97 +1,50 @@
 import streamlit as st
 import yfinance as yf
 import pandas as pd
-import plotly.graph_objects as go
-import numpy as np
+import altair as alt
+from datetime import datetime
 
-# Funciones auxiliares
-def calcular_sharpe_ratio(returns, risk_free_rate=0.02):
-    excess_returns = returns - risk_free_rate / 252
-    return np.sqrt(252) * excess_returns.mean() / excess_returns.std()
-
-def calcular_sortino_ratio(returns, risk_free_rate=0.02, target_return=0):
-    excess_returns = returns - risk_free_rate / 252
-    downside_returns = excess_returns[excess_returns < target_return]
-    downside_deviation = np.sqrt(np.mean(downside_returns**2))
-    return np.sqrt(252) * excess_returns.mean() / downside_deviation if downside_deviation != 0 else np.nan
-
-
-# Configuración página
 st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
-st.sidebar.title("Soriano Asset Management Co.")
-st.title("Visor de datos financieros")
+
+st.title("Soriano Asset Management Co.")
+
 
 # Inputs
-ticker = st.text_input("Ingresa el ticker del activo (ej. AAPL, BTC-USD, ^GSPC):", "AAPL")
-start_date = st.date_input("Fecha de inicio", pd.to_datetime("2020-01-01"))
-end_date = st.date_input("Fecha de fin", pd.to_datetime("today"))
+ticker = st.text_input("Ticker:", value="AAPL")
+start_date = st.date_input("Fecha inicio", pd.to_datetime("2020-01-01"))
+end_date = st.date_input("Fecha fin", pd.to_datetime("today"))
 
+# Descargar datos
 if ticker:
-    try:
-        df = yf.download(ticker, start=start_date, end=end_date)
-        if df.empty:
-            st.warning("No se encontraron datos para ese ticker y fechas.")
-        else:
-            df = df[df["Close"].notna()]
+    df = yf.download(ticker, start=start_date, end=end_date)
+    df = df[["Close"]].dropna().reset_index()
 
-            # Calcular retornos diarios para métricas
-            df["Daily Return"] = df["Close"].pct_change().dropna()
+    if not df.empty:
+        # Crear gráfico Altair (más customizable que st.line_chart)
+        chart = alt.Chart(df).mark_line(
+            color="#00ffcc",  # color estilo Bloomberg
+            strokeWidth=2
+        ).encode(
+            x='Date:T',
+            y='Close:Q',
+            tooltip=["Date:T", "Close:Q"]
+        ).properties(
+            width=1000,
+            height=400,
+            title=f"{ticker} - Precio de Cierre"
+        ).configure_view(
+            strokeWidth=0
+        ).configure_axis(
+            labelColor='white',
+            titleColor='white',
+            gridColor='#333'
+        ).configure_title(
+            color='white'
+        ).configure_background(
+            color='#1e1e1e'
+        )
 
-            st.subheader(f"Datos históricos y métricas para: {ticker}")
-            st.line_chart(df["Close"])
-
-            # Mostrar estadísticas básicas de retorno
-            st.write(df["Daily Return"].describe())
-
-            # Calcular y mostrar métricas financieras
-            sharpe = calcular_sharpe_ratio(df["Daily Return"])
-            sortino = calcular_sortino_ratio(df["Daily Return"])
-
-            st.metric("Sharpe Ratio", f"{sharpe:.2f}")
-            st.metric("Sortino Ratio", f"{sortino:.2f}")
-
-            fig = go.Figure()
-
-            fig.add_trace(go.Scatter(
-                x=df.index,
-                y=df["Close"],
-                mode='lines',
-                name='Precio Cierre',
-                line=dict(color="#00ff96", width=3)  # verde neón tipo Bloomberg
-            ))
-
-            fig.update_layout(
-                template="plotly_dark",
-                plot_bgcolor="#121212",        # fondo muy oscuro, casi negro
-                paper_bgcolor="#121212",
-                font=dict(color="#FFFFFF"),    # texto blanco
-                title=f"{ticker} - Precio de Cierre",
-                xaxis_title="Fecha",
-                yaxis_title="Precio",
-                xaxis=dict(
-                    gridcolor="#333333",       # grid muy sutil en gris oscuro
-                    zerolinecolor="#444444",
-                    showline=True,
-                    linecolor="#555555",
-                    ticks="outside",
-                    tickfont=dict(color="#AAAAAA")
-                ),
-                yaxis=dict(
-                    gridcolor="#333333",
-                    zerolinecolor="#444444",
-                    showline=True,
-                    linecolor="#555555",
-                    ticks="outside",
-                    tickfont=dict(color="#AAAAAA")
-                ),
-                legend=dict(
-                    bgcolor="rgba(0,0,0,0)",
-                    font=dict(color="#00ff96"),
-                    bordercolor="#00ff96",
-                    borderwidth=1
-                )
-)
-
-            st.plotly_chart(fig, use_container_width=True)
-    except Exception as e:
-        st.error(f"Ocurrió un error al obtener los datos: {e}")
+        st.altair_chart(chart, use_container_width=True)
+        st.dataframe(df.tail())
+    else:
+        st.warning("No se encontraron datos para ese ticker.")
