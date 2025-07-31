@@ -62,27 +62,48 @@ if ticker:
             st.metric("Sharpe Ratio", f"{sharpe:.2f}")
             st.metric("Sortino Ratio", f"{sortino:.2f}")
 
-            # Gráfico personalizado con plotly dark
             fig = go.Figure()
+
             fig.add_trace(go.Scatter(
                 x=df.index,
                 y=df["Close"],
                 mode='lines',
                 name='Precio Cierre',
-                line=dict(color="#00ffcc", width=2)
+                line=dict(color="#00ff96", width=3)  # verde neón tipo Bloomberg
             ))
+
             fig.update_layout(
                 template="plotly_dark",
-                plot_bgcolor="#1e1e1e",
-                paper_bgcolor="#1e1e1e",
-                font=dict(color="white"),
+                plot_bgcolor="#121212",        # fondo muy oscuro, casi negro
+                paper_bgcolor="#121212",
+                font=dict(color="#FFFFFF"),    # texto blanco
                 title=f"{ticker} - Precio de Cierre",
                 xaxis_title="Fecha",
                 yaxis_title="Precio",
-                xaxis=dict(gridcolor="#333333", zerolinecolor="#444444"),
-                yaxis=dict(gridcolor="#333333", zerolinecolor="#444444"),
-                legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color="white"))
-            )
+                xaxis=dict(
+                    gridcolor="#333333",       # grid muy sutil en gris oscuro
+                    zerolinecolor="#444444",
+                    showline=True,
+                    linecolor="#555555",
+                    ticks="outside",
+                    tickfont=dict(color="#AAAAAA")
+                ),
+                yaxis=dict(
+                    gridcolor="#333333",
+                    zerolinecolor="#444444",
+                    showline=True,
+                    linecolor="#555555",
+                    ticks="outside",
+                    tickfont=dict(color="#AAAAAA")
+                ),
+                legend=dict(
+                    bgcolor="rgba(0,0,0,0)",
+                    font=dict(color="#00ff96"),
+                    bordercolor="#00ff96",
+                    borderwidth=1
+                )
+)
+
             st.plotly_chart(fig, use_container_width=True)
     except Exception as e:
         st.error(f"Ocurrió un error al obtener los datos: {e}")
