@@ -42,9 +42,8 @@ if ticker:
             color='white'
         )
 
-        # Centrar el gráfico visualmente
-        col1, col2, col3 = st.columns([ 2, 1])
-        with col2:
+        col1, col2 = st.columns([2, 1])
+        with col1:
             st.altair_chart(chart, use_container_width=False)
 
         st.subheader("Últimos datos")
