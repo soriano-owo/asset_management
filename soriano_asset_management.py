@@ -23,13 +23,11 @@ st.markdown(
 )
 
 
-def cargar_datos(tickers, inicio, fin):
-    datos = {}
-    for ticker in tickers:
-        df = yf.download(ticker, start=inicio, end=fin)
-        df['Retornos'] = df['Close'].pct_change()
-        datos[ticker] = df
-    return datos
+def cargar_datos(ticker, inicio, fin):
+    data = yf.download(ticker, start=inicio, end=fin)
+    data['Retornos'] = data['Close'].pct_change()
+    data = data[ticker]
+    return df
 
 # Configuración de página
 st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
@@ -44,6 +42,7 @@ end_date = st.date_input("Fecha fin", pd.to_datetime("today"))
 if ticker:
     tickers = [ticker]  # Asegúrate que sea lista
     df = cargar_datos(tickers, start_date, end_date)
+
     #df = yf.download(ticker, start=start_date, end=end_date)
     st.write(df)
 
