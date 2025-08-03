@@ -89,7 +89,7 @@ if ticker:
     
 )
 
-    col1, col2 = st.columns([1, 3])  # Primera columna más angosta (1/4 ancho), segunda columna más ancha (3/4 ancho)
+    col1, col2 = st.columns([1, 2])  # Primera columna más angosta (1/4 ancho), segunda columna más ancha (3/4 ancho)
 
     with col1:
         st.plotly_chart(fig, use_container_width=True)
