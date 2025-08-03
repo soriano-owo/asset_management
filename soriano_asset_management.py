@@ -1,10 +1,10 @@
 import streamlit as st
 import yfinance as yf
 import pandas as pd
-import altair as alt
 from datetime import datetime
 import plotly.graph_objects as go
 
+# Estilos personalizados para modo oscuro
 st.markdown(
     """
     <style>
@@ -21,7 +21,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Configuración
+# Configuración de página
 st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
 st.title("Soriano Asset Management Co.")
 
@@ -30,46 +30,38 @@ ticker = st.text_input("Ticker:", value="AAPL")
 start_date = st.date_input("Fecha inicio", pd.to_datetime("2020-01-01"))
 end_date = st.date_input("Fecha fin", pd.to_datetime("today"))
 
-# Descargar datos
+# Descargar y mostrar datos
 if ticker:
     df = yf.download(ticker, start=start_date, end=end_date)
+    df.index = pd.to_datetime(df.index)
     df = df[["Close"]].dropna().reset_index()
 
     if not df.empty:
-        # Gráfico Altair personalizado
- # Gráfico Plotly
+        # Gráfico Plotly
         fig = go.Figure()
         fig.add_trace(go.Scatter(
-            x=df.index,
+            x=df["Date"],
             y=df["Close"],
-            mode='lines',
-            name='Precio de Cierre',
+            mode="lines",
+            name="Precio de Cierre",
             line=dict(color="#00ffcc", width=2)
         ))
 
         fig.update_layout(
             title=f"{ticker} - Precio de Cierre",
             template="plotly_dark",
+            xaxis_title="Fecha",
+            yaxis_title="Precio",
             plot_bgcolor="#1e1e1e",
             paper_bgcolor="#1e1e1e",
-            font=dict(color='white'),
-            xaxis=dict(
-                title="Fecha",
-                gridcolor="#333333",
-                zerolinecolor="#444444"
-            ),
-            yaxis=dict(
-                title="Precio",
-                gridcolor="#333333",
-                zerolinecolor="#444444"
-            ),
-            legend=dict(
-                bgcolor="rgba(0,0,0,0)",
-                font=dict(color="white")
-            ),
+            font=dict(color="white"),
+            xaxis=dict(gridcolor="#333333", zerolinecolor="#444444"),
+            yaxis=dict(gridcolor="#333333", zerolinecolor="#444444"),
+            legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color="white")),
+            width=800,
+            height=450
         )
+
         st.plotly_chart(fig, use_container_width=False)
-        st.subheader("Últimos datos")
-        st.dataframe(df.tail())
     else:
         st.warning("No se encontraron datos para ese ticker.")
