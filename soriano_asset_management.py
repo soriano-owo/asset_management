@@ -23,10 +23,10 @@ st.markdown(
 )
 
 
-def cargar_datos(ticker, inicio, fin):
-    data = yf.download(ticker, start=inicio, end=fin)
+def cargar_datos(tickers, inicio, fin):
+    data = yf.download(tickers, start=inicio, end=fin)
     data['Retornos'] = data['Close'].pct_change()
-    data = data[ticker]
+    data = data[tickers]
     return df
 
 # Configuración de página
@@ -40,8 +40,8 @@ end_date = st.date_input("Fecha fin", pd.to_datetime("today"))
 
 # Descargar y mostrar datos
 if ticker:
-    tickers = [ticker]  # Asegúrate que sea lista
-    df = cargar_datos(tickers, start_date, end_date)
+    #tickers = [ticker]  # Asegúrate que sea lista
+    df = cargar_datos(ticker, start_date, end_date)
 
     #df = yf.download(ticker, start=start_date, end=end_date)
     st.write(df)
