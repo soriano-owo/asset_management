@@ -27,7 +27,7 @@ def cargar_datos(tickers, inicio, fin):
     data = yf.download(tickers, start=inicio, end=fin)
     data['Retornos'] = data['Close'].pct_change()
     #data = data[tickers]
-    return df
+    return data
 
 # Configuración de página
 st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
