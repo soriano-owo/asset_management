@@ -3,6 +3,7 @@ import yfinance as yf
 import pandas as pd
 import altair as alt
 from datetime import datetime
+import plotly.graph_objects as go
 
 st.markdown(
     """
