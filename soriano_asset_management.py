@@ -56,7 +56,7 @@ if ticker:
             gridColor='#333'
         ).configure_title(
             color='white'
-        )
+        ).configure(background='#1e1e1e')
 
         col1, col2 = st.columns([2, 1])
         with col1:
