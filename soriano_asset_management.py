@@ -43,13 +43,13 @@ end_date = st.date_input("Fecha fin", pd.to_datetime("today"))
 if ticker:
     df = cargar_datos(ticker, start_date, end_date)
     df = yf.download(ticker, start=start_date, end=end_date)
-    st.write(df)
+    st.write(df.index)
 
 
         # Gráfico Plotly
     fig = go.Figure()
     fig.add_trace(go.Scatter(
-            x=df["Date"],
+            x=df.index,
             y=df["Close"],
             mode="lines",
             name="Precio de Cierre",
