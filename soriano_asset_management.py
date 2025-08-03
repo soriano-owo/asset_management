@@ -58,7 +58,33 @@ if ticker:
             name="Precio de Cierre",
             line=dict(color="#00ffcc", width=2)
         ))
-
+    
+    fig.update_layout(
+    template="plotly_dark",          # Tema oscuro
+    plot_bgcolor="#1e1e1e",          # Fondo área de gráfico
+    paper_bgcolor="#1e1e1e",         # Fondo general
+    font=dict(color="white"),        # Texto blanco
+    xaxis=dict(
+        gridcolor="#333333",         # Color de grillas
+        zerolinecolor="#444444",
+        title="Fecha",
+        color="white"
+    ),
+    yaxis=dict(
+        gridcolor="#333333",
+        zerolinecolor="#444444",
+        title="Precio",
+        color="white"
+    ),
+    legend=dict(
+        bgcolor="rgba(0,0,0,0)",
+        font=dict(color="white")
+    ),
+    title=dict(
+        text="Nombre del gráfico",
+        font=dict(color="white")
+    )
+)
 
 
     st.plotly_chart(fig, use_container_width=False)
