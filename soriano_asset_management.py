@@ -36,31 +36,19 @@ if ticker:
 
     if not df.empty:
         # Gráfico Altair personalizado
-        chart = alt.Chart(df).mark_line(
-            color="#00ffcc",  # color estilo Bloomberg
-            strokeWidth=2
-        ).encode(
-            x=alt.X('Date:T', axis=alt.Axis(title='Fecha')),
-            y=alt.Y('Close:Q', axis=alt.Axis(title='Precio')),
-            tooltip=["Date:T", "Close:Q"]
-        ).properties(
-            width=600,
-            height=400,
-            title=f"{ticker} - Precio de Cierre"
-        ).configure_view(
-            stroke=None,
-            fill='#1e1e1e'  # Fondo oscuro
-        ).configure_axis(
-            labelColor='white',
-            titleColor='white',
-            gridColor='#333'
-        ).configure_title(
-            color='white'
-        ).configure(background='#1e1e1e')
-
-        col1, col2 = st.columns([2, 1])
-        with col1:
-            st.altair_chart(chart, use_container_width=False)
+        fig = go.Figure()
+        
+        fig.add_trace(go.Scatter(x=df.index, y=df["Close"], mode='lines', name='Precio', line=dict(color="#00ffcc", width=2)))
+        fig.update_layout(
+            title=f"{ticker} - Precio de Cierre",
+            template="plotly_dark",
+            plot_bgcolor="#1e1e1e",
+            paper_bgcolor="#1e1e1e",
+            font=dict(color='white'),
+            xaxis=dict(title='Fecha'),
+            yaxis=dict(title='Precio'),
+        )
+        st.plotly_chart(fig, use_container_width=True)
 
         st.subheader("Últimos datos")
         st.dataframe(df.tail())
