@@ -42,7 +42,8 @@ end_date = st.date_input("Fecha fin", pd.to_datetime("today"))
 
 # Descargar y mostrar datos
 if ticker:
-    df = cargar_datos(ticker, start_date, end_date)
+    tickers = [ticker]  # Asegúrate que sea lista
+    df = cargar_datos(tickers, start_date, end_date)
     #df = yf.download(ticker, start=start_date, end=end_date)
     st.write(df)
 
