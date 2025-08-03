@@ -36,19 +36,37 @@ if ticker:
 
     if not df.empty:
         # Gráfico Altair personalizado
+ # Gráfico Plotly
         fig = go.Figure()
-        
-        fig.add_trace(go.Scatter(x=df.index, y=df["Close"], mode='lines', name='Precio', line=dict(color="#00ffcc", width=2)))
+        fig.add_trace(go.Scatter(
+            x=df.index,
+            y=df["Close"],
+            mode='lines',
+            name='Precio de Cierre',
+            line=dict(color="#00ffcc", width=2)
+        ))
+
         fig.update_layout(
             title=f"{ticker} - Precio de Cierre",
             template="plotly_dark",
             plot_bgcolor="#1e1e1e",
             paper_bgcolor="#1e1e1e",
             font=dict(color='white'),
-            xaxis=dict(title='Fecha'),
-            yaxis=dict(title='Precio'),
+            xaxis=dict(
+                title="Fecha",
+                gridcolor="#333333",
+                zerolinecolor="#444444"
+            ),
+            yaxis=dict(
+                title="Precio",
+                gridcolor="#333333",
+                zerolinecolor="#444444"
+            ),
+            legend=dict(
+                bgcolor="rgba(0,0,0,0)",
+                font=dict(color="white")
+            ),
         )
-        st.plotly_chart(fig, use_container_width=True)
 
         st.subheader("Últimos datos")
         st.dataframe(df.tail())
