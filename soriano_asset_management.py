@@ -4,6 +4,7 @@ import pandas as pd
 from datetime import datetime
 import plotly.graph_objects as go
 
+
 # Estilos personalizados para modo oscuro
 st.markdown(
     """
@@ -49,7 +50,7 @@ if ticker:
         # Gráfico Plotly
     fig = go.Figure()
     fig.add_trace(go.Scatter(
-            x=df.index,
+            x=df.index.date(),
             y=df["Close"],
             mode="lines",
             name="Precio de Cierre",
