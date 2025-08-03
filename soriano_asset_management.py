@@ -36,10 +36,9 @@ if ticker:
     df.index = pd.to_datetime(df.index)
     df = df[["Close"]].dropna().reset_index()
 
-    if not df.empty:
         # Gráfico Plotly
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
             x=df["Date"],
             y=df["Close"],
             mode="lines",
@@ -47,7 +46,7 @@ if ticker:
             line=dict(color="#00ffcc", width=2)
         ))
 
-        fig.update_layout(
+    fig.update_layout(
             title=f"{ticker} - Precio de Cierre",
             template="plotly_dark",
             xaxis_title="Fecha",
@@ -62,6 +61,6 @@ if ticker:
             height=450
         )
 
-        st.plotly_chart(fig, use_container_width=False)
-    else:
-        st.warning("No se encontraron datos para ese ticker.")
+    st.plotly_chart(fig, use_container_width=False)
+else:
+    st.warning("No se encontraron datos para ese ticker.")
