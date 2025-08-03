@@ -26,7 +26,7 @@ st.markdown(
 def cargar_datos(tickers, inicio, fin):
     data = yf.download(tickers, start=inicio, end=fin)
     data['Retornos'] = data['Close'].pct_change()
-    data = data[tickers]
+    #data = data[tickers]
     return df
 
 # Configuración de página
