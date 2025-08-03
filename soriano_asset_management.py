@@ -89,7 +89,10 @@ if ticker:
     
 )
 
+    col1, col2 = st.columns([1, 3])  # Primera columna más angosta (1/4 ancho), segunda columna más ancha (3/4 ancho)
 
-    st.plotly_chart(fig, use_container_width=False)
+    with col1:
+        st.plotly_chart(fig, use_container_width=True)
+    #st.plotly_chart(fig, use_container_width=False)
 else:
     st.warning("No se encontraron datos para ese ticker.")
