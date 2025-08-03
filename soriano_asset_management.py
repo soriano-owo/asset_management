@@ -82,7 +82,7 @@ if ticker:
         font=dict(color="white")
     ),
     title=dict(
-        text=f"Close price of {ticker}",
+        text=f"Close of {ticker}",
         font=dict(color="white")
     )
     
