@@ -4,6 +4,22 @@ import pandas as pd
 import altair as alt
 from datetime import datetime
 
+st.markdown(
+    """
+    <style>
+    body {
+        background-color: #1e1e1e;
+        color: white;
+    }
+    .stApp {
+        background-color: #1e1e1e;
+        color: white;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Configuración
 st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
 st.title("Soriano Asset Management Co.")
