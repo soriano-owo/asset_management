@@ -68,7 +68,7 @@ if ticker:
                 font=dict(color="white")
             ),
         )
-
+        st.plotly_chart(fig, use_container_width=False)
         st.subheader("Últimos datos")
         st.dataframe(df.tail())
     else:
