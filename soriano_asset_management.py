@@ -68,13 +68,13 @@ if ticker:
     xaxis=dict(
         gridcolor="#333333",         # Color de grillas
         zerolinecolor="#444444",
-        title="Fecha",
+        title="Date",
         color="white"
     ),
     yaxis=dict(
         gridcolor="#333333",
         zerolinecolor="#444444",
-        title="Precio",
+        title="Close price",
         color="white"
     ),
     legend=dict(
@@ -88,7 +88,7 @@ if ticker:
     
 )
 
-    col1, col2 = st.columns([1, 1])  # Primera columna más angosta (1/4 ancho), segunda columna más ancha (3/4 ancho)
+    col1, col2 = st.columns([1, 1])  
 
     with col1:
         st.plotly_chart(fig, use_container_width=True)
