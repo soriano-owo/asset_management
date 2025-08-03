@@ -37,8 +37,8 @@ st.title("Soriano Asset Management Co.")
 
 # Inputs
 ticker = st.text_input("Ticker:", value="VOO")
-start_date = st.date_input("Fecha inicio", pd.to_datetime("2024-01-01"))
-end_date = st.date_input("Fecha fin", pd.to_datetime("today"))
+start_date = st.date_input("Start date", pd.to_datetime("2024-01-01"))
+end_date = st.date_input("End date", pd.to_datetime("today"))
 
 # Descargar y mostrar datos
 if ticker:
