@@ -83,7 +83,6 @@ if ticker:
         font=dict(color="white")
     ),
     title=dict(
-        text="Nombre del gráfico",
         font=dict(color="white")
     )
     
