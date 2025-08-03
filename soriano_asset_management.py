@@ -43,6 +43,7 @@ end_date = st.date_input("Fecha fin", pd.to_datetime("today"))
 if ticker:
     df = cargar_datos(ticker, start_date, end_date)
     df = yf.download(ticker, start=start_date, end=end_date)
+    st.write(df)
 
 
         # Gráfico Plotly
