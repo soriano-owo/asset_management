@@ -63,8 +63,8 @@ if ticker:
     template="plotly_dark",          # Tema oscuro
     plot_bgcolor="#1e1e1e",          # Fondo área de gráfico
     paper_bgcolor="#1e1e1e",         # Fondo general
-    width=700,   # ancho en píxeles
-    height=400,  # alto en píxeles
+    #width=700,   # ancho en píxeles
+    #height=400,  # alto en píxeles
     font=dict(color="white"),        # Texto blanco
     xaxis=dict(
         gridcolor="#333333",         # Color de grillas
