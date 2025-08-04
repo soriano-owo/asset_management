@@ -35,18 +35,18 @@ def cargar_datos(tickers, inicio, fin):
 st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
 st.title("Soriano Asset Management Co.")
 
-# Inputs
+
 ticker = st.text_input("Ticker:", value="VOO.MX")
 start_date = st.date_input("Start date", pd.to_datetime("2024-01-01"))
 end_date = st.date_input("End date", pd.to_datetime("today"))
 
-# Descargar y mostrar datos
+
 if ticker:
-    #tickers = [ticker]  # Asegúrate que sea lista
+
     df = cargar_datos(ticker, start_date, end_date)
 
 
-    #df = yf.download(ticker, start=start_date, end=end_date)
+
     st.write(df)
 
 
@@ -70,19 +70,17 @@ if ticker:
     show_ma10 = st.checkbox("MA 10", value=True)
     show_ma20 = st.checkbox("MA 20", value=False)
     show_ma50 = st.checkbox("MA 50", value=False)
-
+    show_candles = st.checkbox("Candles", value=False)
 
     fig.update_layout(template="plotly_dark")
     
     fig.update_layout(
-    template="plotly_dark",          # Tema oscuro
-    plot_bgcolor="#1e1e1e",          # Fondo área de gráfico
-    paper_bgcolor="#1e1e1e",         # Fondo general
-    #width=700,   # ancho en píxeles
-    #height=400,  # alto en píxeles
-    font=dict(color="white"),        # Texto blanco
+    template="plotly_dark",       
+    plot_bgcolor="#1e1e1e",       
+    paper_bgcolor="#1e1e1e",       
+    font=dict(color="white"),      
     xaxis=dict(
-        gridcolor="#333333",         # Color de grillas
+        gridcolor="#333333",         
         zerolinecolor="#444444",
         title="Date",
         color="white"
@@ -112,8 +110,23 @@ if ticker:
         if show_ma20:
             fig.add_trace(go.Scatter(x=df.index, y=df["MA_20"], mode="lines", name="MA 20", line=dict(color="orange")))
         if show_ma50:
-            fig.add_trace(go.Scatter(x=df.index, y=df["MA_50"], mode="lines", name="MA 50", line=dict(color="red")))        
+            fig.add_trace(go.Scatter(x=df.index, 
+                                     y=df["MA_50"], 
+                                     mode="lines", 
+                                     name="MA 50", 
+                                     line=dict(color="red")))        
         st.plotly_chart(fig, use_container_width=True)
+        if show_candles:
+            fig.add_trace(go.Candlestick(
+            x=df.index,
+            open=df['Open'],
+            high=df['High'],
+            low=df['Low'],
+            close=df['Close'],
+            increasing_line_color='green',
+            decreasing_line_color='red',
+            name='Candles'
+        ))
 
         
     #st.plotly_chart(fig, use_container_width=False)
