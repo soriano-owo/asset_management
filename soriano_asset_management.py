@@ -71,12 +71,6 @@ if ticker:
     show_ma20 = st.checkbox("MA 20", value=False)
     show_ma50 = st.checkbox("MA 50", value=False)
 
-    if show_ma10:
-        fig.add_trace(go.Scatter(x=df.index, y=df["MA_10"], mode="lines", name="MA 10", line=dict(color="yellow")))
-    if show_ma20:
-        fig.add_trace(go.Scatter(x=df.index, y=df["MA_20"], mode="lines", name="MA 20", line=dict(color="orange")))
-    if show_ma50:
-        fig.add_trace(go.Scatter(x=df.index, y=df["MA_50"], mode="lines", name="MA 50", line=dict(color="red")))
 
     fig.update_layout(template="plotly_dark")
     
@@ -114,6 +108,13 @@ if ticker:
 
     with col1:
         st.plotly_chart(fig, use_container_width=True)
+    if show_ma10:
+        fig.add_trace(go.Scatter(x=df.index, y=df["MA_10"], mode="lines", name="MA 10", line=dict(color="yellow")))
+    if show_ma20:
+        fig.add_trace(go.Scatter(x=df.index, y=df["MA_20"], mode="lines", name="MA 20", line=dict(color="orange")))
+    if show_ma50:
+        fig.add_trace(go.Scatter(x=df.index, y=df["MA_50"], mode="lines", name="MA 50", line=dict(color="red")))
+        
     #st.plotly_chart(fig, use_container_width=False)
 else:
     st.warning("No se encontraron datos para ese ticker.")
