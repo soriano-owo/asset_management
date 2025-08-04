@@ -61,7 +61,9 @@ if ticker:
     
         # Precio cierre
     #fig.add_trace(go.Scatter(x=df.index, y=df["Close"], mode="lines", name="Close", line=dict(color="#00ffcc")))
-
+    df["MA_10"] = df["Close"].rolling(window=10).mean()
+    df["MA_20"] = df["Close"].rolling(window=20).mean()
+    df["MA_50"] = df["Close"].rolling(window=50).mean()
     # Medias móviles
     fig.add_trace(go.Scatter(x=df.index, y=df["MA_10"], mode="lines", name="MA 10", line=dict(color="yellow")))
     fig.add_trace(go.Scatter(x=df.index, y=df["MA_20"], mode="lines", name="MA 20", line=dict(color="orange")))
