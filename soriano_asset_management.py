@@ -52,15 +52,9 @@ if ticker:
 
         # Gráfico Plotly
     fig = go.Figure()
-    fig.add_trace(go.Scatter(
-            x=df.index.date,
-            y=df["Close"],
-            mode="lines",
-            line=dict(color="#00ffcc", width=2),
-            name="Close"
-        ))
+
     
-        # Precio cierre
+
     #fig.add_trace(go.Scatter(x=df.index, y=df["Close"], mode="lines", name="Close", line=dict(color="#00ffcc")))
     df["MA_10"] = df["Close"].rolling(window=10).mean()
     df["MA_20"] = df["Close"].rolling(window=20).mean()
@@ -115,19 +109,26 @@ if ticker:
                                      mode="lines", 
                                      name="MA 50", 
                                      line=dict(color="red")))        
-        st.plotly_chart(fig, use_container_width=True)
         if show_candles:
             fig.add_trace(go.Candlestick(
-            x=df.index,
-            open=df['Open'],
-            high=df['High'],
-            low=df['Low'],
-            close=df['Close'],
-            increasing_line_color='green',
-            decreasing_line_color='red',
-            name='Candles'
-        ))
-
+                x=df.index,
+                open=df['Open'],
+                high=df['High'],
+                low=df['Low'],
+                close=df['Close'],
+                increasing_line_color='green',
+                decreasing_line_color='red',
+                name='Candles'
+            ))
+        else:
+            fig.add_trace(go.Scatter(
+                x=df.index,
+                y=df['Close'],
+                mode='lines',
+                name='Close',
+                line=dict(color="#00ffcc", width=2)
+            ))
+        st.plotly_chart(fig, use_container_width=True)
         
     #st.plotly_chart(fig, use_container_width=False)
 else:
