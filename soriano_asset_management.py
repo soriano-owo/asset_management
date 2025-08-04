@@ -36,7 +36,7 @@ st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
 st.title("Soriano Asset Management Co.")
 
 
-ticker = st.text_input("Ticker:", value="VOO.MX")
+ticker = st.text_input("Ticker:", value="VOO")
 start_date = st.date_input("Start date", pd.to_datetime("2024-01-01"))
 end_date = st.date_input("End date", pd.to_datetime("today"))
 
@@ -47,10 +47,10 @@ if ticker:
 
 
 
-    st.write(df)
+    #st.write(df)
 
 
-        # Gráfico Plotly
+
     fig = go.Figure()
 
     
