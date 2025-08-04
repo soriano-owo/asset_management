@@ -64,10 +64,18 @@ if ticker:
     df["MA_10"] = df["Close"].rolling(window=10).mean()
     df["MA_20"] = df["Close"].rolling(window=20).mean()
     df["MA_50"] = df["Close"].rolling(window=50).mean()
-    # Medias móviles
-    fig.add_trace(go.Scatter(x=df.index, y=df["MA_10"], mode="lines", name="MA 10", line=dict(color="yellow")))
-    fig.add_trace(go.Scatter(x=df.index, y=df["MA_20"], mode="lines", name="MA 20", line=dict(color="orange")))
-    fig.add_trace(go.Scatter(x=df.index, y=df["MA_50"], mode="lines", name="MA 50", line=dict(color="red")))
+
+        # Checkboxes para mostrar medias móviles
+    show_ma10 = st.checkbox("MA 10", value=True)
+    show_ma20 = st.checkbox("MA 20", value=False)
+    show_ma50 = st.checkbox("MA 50", value=False)
+
+    if show_ma10:
+        fig.add_trace(go.Scatter(x=df.index, y=df["MA_10"], mode="lines", name="MA 10", line=dict(color="yellow")))
+    if show_ma20:
+        fig.add_trace(go.Scatter(x=df.index, y=df["MA_20"], mode="lines", name="MA 20", line=dict(color="orange")))
+    if show_ma50:
+        fig.add_trace(go.Scatter(x=df.index, y=df["MA_50"], mode="lines", name="MA 50", line=dict(color="red")))
 
     fig.update_layout(template="plotly_dark")
     
