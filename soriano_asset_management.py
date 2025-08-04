@@ -83,7 +83,8 @@ if ticker:
         gridcolor="#333333",
         zerolinecolor="#444444",
         title="Close price",
-        color="white"
+        color="white",
+        autorange=True
     ),
     legend=dict(
         bgcolor="rgba(0,0,0,0)",
