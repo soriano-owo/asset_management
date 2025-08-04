@@ -45,6 +45,7 @@ if ticker:
     #tickers = [ticker]  # Asegúrate que sea lista
     df = cargar_datos(ticker, start_date, end_date)
 
+
     #df = yf.download(ticker, start=start_date, end=end_date)
     st.write(df)
 
@@ -57,6 +58,16 @@ if ticker:
             mode="lines",
             line=dict(color="#00ffcc", width=2)
         ))
+    
+        # Precio cierre
+    #fig.add_trace(go.Scatter(x=df.index, y=df["Close"], mode="lines", name="Close", line=dict(color="#00ffcc")))
+
+    # Medias móviles
+    fig.add_trace(go.Scatter(x=df.index, y=df["MA_10"], mode="lines", name="MA 10", line=dict(color="yellow")))
+    fig.add_trace(go.Scatter(x=df.index, y=df["MA_20"], mode="lines", name="MA 20", line=dict(color="orange")))
+    fig.add_trace(go.Scatter(x=df.index, y=df["MA_50"], mode="lines", name="MA 50", line=dict(color="red")))
+
+    fig.update_layout(template="plotly_dark")
     
     fig.update_layout(
     template="plotly_dark",          # Tema oscuro
