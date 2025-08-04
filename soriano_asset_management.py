@@ -97,9 +97,7 @@ if ticker:
         title=dict(
             text=f"Close of {ticker}",
             font=dict(color="white")
-        ),
-        height=600,
-        width=900,
+        )
     )
 
     col1, col2 = st.columns([1, 1])  
