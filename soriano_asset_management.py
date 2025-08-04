@@ -61,7 +61,7 @@ if ticker:
     df["MA_50"] = df["Close"].rolling(window=50).mean()
 
         # Checkboxes para mostrar medias móviles
-    show_ma10 = st.checkbox("MA 10", value=True)
+    show_ma10 = st.checkbox("MA 10", value=False)
     show_ma20 = st.checkbox("MA 20", value=False)
     show_ma50 = st.checkbox("MA 50", value=False)
     show_candles = st.checkbox("Candles", value=False)
