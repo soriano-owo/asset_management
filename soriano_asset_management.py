@@ -117,18 +117,18 @@ if ticker:
                 y=df['Close'],
                 mode='lines',
                 name='Close',
-                line=dict(color="#00ffcc", width=2)
+                line=dict(color="#00ffcc", width=1)
             ))
         if show_ma10:
-            fig.add_trace(go.Scatter(x=df.index, y=df["MA_10"], mode="lines", name="MA 10", line=dict(color="blue")))
+            fig.add_trace(go.Scatter(x=df.index, y=df["MA_10"], mode="lines", name="MA 10", line=dict(color="blue", width = 0.8)))
         if show_ma20:
-            fig.add_trace(go.Scatter(x=df.index, y=df["MA_20"], mode="lines", name="MA 20", line=dict(color="green")))
+            fig.add_trace(go.Scatter(x=df.index, y=df["MA_20"], mode="lines", name="MA 20", line=dict(color="green", width = 0.8)))
         if show_ma50:
             fig.add_trace(go.Scatter(x=df.index, 
                                      y=df["MA_50"], 
                                      mode="lines", 
                                      name="MA 50", 
-                                     line=dict(color="purple")))                  
+                                     line=dict(color="purple", width = 0.8)))                  
         st.plotly_chart(fig, use_container_width=True)
         
     #st.plotly_chart(fig, use_container_width=False)
