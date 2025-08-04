@@ -24,11 +24,10 @@ st.markdown(
 
 
 def cargar_datos(tickers, inicio, fin):
+    ticker = ticker.upper()
     data = yf.download(tickers, start=inicio, end=fin)
     data['Retornos'] = data['Close'].pct_change()
-    #data.index = data.index.droplevel(1)
     data.columns = data.columns.droplevel(1)
-    #data = data[tickers]
     return data
 
 # Configuración de página
