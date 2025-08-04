@@ -117,10 +117,10 @@ with col1:
         df["MA_50"] = df["Close"].rolling(window=50).mean()
 
         # Checkboxes para mostrar elementos
-        show_ma10 = st.checkbox("MA 10", value=False)
-        show_ma20 = st.checkbox("MA 20", value=False)
-        show_ma50 = st.checkbox("MA 50", value=False)
-        show_candles = st.checkbox("Candles", value=False)
+        show_ma10 = st.checkbox("MA 10", value=True)
+        show_ma20 = st.checkbox("MA 20", value=True)
+        show_ma50 = st.checkbox("MA 50", value=True)
+        show_candles = st.checkbox("Candles", value=True)
 
         # Agregar trazas según selección
         if show_candles:
