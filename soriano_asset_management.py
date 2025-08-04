@@ -24,7 +24,7 @@ st.markdown(
 
 
 def cargar_datos(tickers, inicio, fin):
-    ticker = ticker.upper()
+    tickers = tickers.upper()
     data = yf.download(tickers, start=inicio, end=fin)
     data['Retornos'] = data['Close'].pct_change()
     data.columns = data.columns.droplevel(1)
@@ -94,7 +94,7 @@ if ticker:
             font=dict(color="white")
         ),
         title=dict(
-            text=f"Close of {ticker}",
+            text=f"{ticker.upper()}",
             font=dict(color="white")
         )
     )
@@ -119,7 +119,7 @@ if ticker:
                 x=df.index,
                 y=df['Close'],
                 mode='lines',
-                name='Close',
+                name='Close price',
                 line=dict(color="#00ffcc", width=1)
             ))
         if show_ma10:
