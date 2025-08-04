@@ -77,14 +77,16 @@ if ticker:
         gridcolor="#333333",         
         zerolinecolor="#444444",
         title="Date",
-        color="white"
+        color="white",
+        fixedrange=False
     ),
     yaxis=dict(
         gridcolor="#333333",
         zerolinecolor="#444444",
         title="Close price",
         color="white",
-        autorange=True
+        autorange=True, 
+        fixedrange=False
     ),
     legend=dict(
         bgcolor="rgba(0,0,0,0)",
