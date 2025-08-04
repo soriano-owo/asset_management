@@ -173,6 +173,6 @@ with col1:
         # Mostrar gráfico
         st.plotly_chart(fig, use_container_width=True)
     else: 
-        st.warning("No se encontraron datos para ese ticker en las fechas seleccionadas.")
+        st.warning("Ticker does not exist or dates are incorrect :(")
 
 
