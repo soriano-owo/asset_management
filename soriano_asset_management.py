@@ -56,7 +56,8 @@ if ticker:
             x=df.index.date,
             y=df["Close"],
             mode="lines",
-            line=dict(color="#00ffcc", width=2)
+            line=dict(color="#00ffcc", width=2),
+            name="Close"
         ))
     
         # Precio cierre
