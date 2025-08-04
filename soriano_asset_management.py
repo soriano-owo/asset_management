@@ -107,13 +107,14 @@ if ticker:
     col1, col2 = st.columns([1, 1])  
 
     with col1:
+        if show_ma10:
+            fig.add_trace(go.Scatter(x=df.index, y=df["MA_10"], mode="lines", name="MA 10", line=dict(color="yellow")))
+        if show_ma20:
+            fig.add_trace(go.Scatter(x=df.index, y=df["MA_20"], mode="lines", name="MA 20", line=dict(color="orange")))
+        if show_ma50:
+            fig.add_trace(go.Scatter(x=df.index, y=df["MA_50"], mode="lines", name="MA 50", line=dict(color="red")))        
         st.plotly_chart(fig, use_container_width=True)
-    if show_ma10:
-        fig.add_trace(go.Scatter(x=df.index, y=df["MA_10"], mode="lines", name="MA 10", line=dict(color="yellow")))
-    if show_ma20:
-        fig.add_trace(go.Scatter(x=df.index, y=df["MA_20"], mode="lines", name="MA 20", line=dict(color="orange")))
-    if show_ma50:
-        fig.add_trace(go.Scatter(x=df.index, y=df["MA_50"], mode="lines", name="MA 50", line=dict(color="red")))
+
         
     #st.plotly_chart(fig, use_container_width=False)
 else:
