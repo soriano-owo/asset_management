@@ -69,12 +69,12 @@ with col1:
 
 
     ticker = st.text_input("Ticker:", value="VOO")
+    start_date = st.date_input("Start date", pd.to_datetime("2024-01-01"))
+    end_date = st.date_input("End date", pd.to_datetime("today"))
 
-    if ticker:
-        start_date = st.date_input("Start date", pd.to_datetime("2024-01-01"))
-        end_date = st.date_input("End date", pd.to_datetime("today"))
+    df = cargar_datos(ticker, start_date, end_date)
 
-        df = cargar_datos(ticker, start_date, end_date)
+    if not(df.empty):
 
         fig = go.Figure()
 
@@ -173,4 +173,6 @@ with col1:
         # Mostrar gráfico
         st.plotly_chart(fig, use_container_width=True)
     else: 
-        st.write("Ticker does not exist")
+        st.warning("No se encontraron datos para ese ticker en las fechas seleccionadas.")
+
+
