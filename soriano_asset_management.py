@@ -9,13 +9,28 @@ import plotly.graph_objects as go
 st.markdown(
     """
     <style>
-    body {
-        background-color: #1e1e1e;
-        color: white;
-    }
     .stApp {
         background-color: #1e1e1e;
         color: white;
+    }
+
+        html, body, [class*="css"]  {
+        color: white !important;
+        background-color: #1e1e1e;
+        color: white;
+    }
+
+    /* Opcional: botones, inputs y títulos */
+    .stTextInput > div > div > input {
+        color: white !important;
+        background-color: #333333 !important;
+    }
+    .stDateInput, .stCheckbox, .stButton {
+        color: white !important;
+    }
+
+    h1, h2, h3, h4, h5, h6, p, label, span, div {
+        color: white !important;
     }
     </style>
     """,
