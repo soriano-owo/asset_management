@@ -56,7 +56,7 @@ if "end_date" not in st.session_state:
     st.session_state.end_date = pd.to_datetime("today")
 
 
-col1, col2 = st.columns([1, 1])
+col1, col2 = st.columns([2, 1])
 
 with col1:
     placeholder = st.empty() 
