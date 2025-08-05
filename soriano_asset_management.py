@@ -5,7 +5,6 @@ from datetime import datetime
 import plotly.graph_objects as go
 
 
-# Estilos personalizados para modo oscuro
 st.markdown(
     """
     <style>
@@ -49,32 +48,30 @@ def cargar_datos(tickers, inicio, fin):
 st.set_page_config(page_title="Soriano Asset Management Co.", layout="wide")
 st.title("Soriano Asset Management Co.")
 
+if "ticker" not in st.session_state:
+    st.session_state.ticker = "VOO"
+if "start_date" not in st.session_state:
+    st.session_state.start_date = pd.to_datetime("2024-01-01")
+if "end_date" not in st.session_state:
+    st.session_state.end_date = pd.to_datetime("today")
 
-
-
-#if ticker:
-
-
-
-    #st.write(df)
-
-
-
-# Suponiendo que ya tienes esta función definida
-# def cargar_datos(ticker, start_date, end_date): ...
 
 col1, col2 = st.columns([1, 1])
 
 with col1:
+    placeholder = st.empty() 
+    show_ma10 = st.checkbox("MA 10", value=True)
+    show_ma20 = st.checkbox("MA 20", value=True)
+    show_ma50 = st.checkbox("MA 50", value=True)
+    show_candles = st.checkbox("Candles", value=True)
 
-
-    ticker = st.text_input("Ticker:", value="VOO")
+    ticker = st.text_input("Ticker:", value="VOO", key="ticker_input")
     start_date = st.date_input("Start date", pd.to_datetime("2024-01-01"))
     end_date = st.date_input("End date", pd.to_datetime("today"))
 
     df = cargar_datos(ticker, start_date, end_date)
 
-    if not(df.empty):
+    if not df.empty:
 
         fig = go.Figure()
 
@@ -116,11 +113,7 @@ with col1:
         df["MA_20"] = df["Close"].rolling(window=20).mean()
         df["MA_50"] = df["Close"].rolling(window=50).mean()
 
-        # Checkboxes para mostrar elementos
-        show_ma10 = st.checkbox("MA 10", value=True)
-        show_ma20 = st.checkbox("MA 20", value=True)
-        show_ma50 = st.checkbox("MA 50", value=True)
-        show_candles = st.checkbox("Candles", value=True)
+  
 
         # Agregar trazas según selección
         if show_candles:
@@ -170,9 +163,11 @@ with col1:
                 line=dict(color="#483de1", width=0.8)
             ))
 
-        # Mostrar gráfico
-        st.plotly_chart(fig, use_container_width=True)
+        placeholder.plotly_chart(fig, use_container_width=True)
     else: 
         st.warning("Ticker does not exist or dates are incorrect :(")
 
+
+with col2:
+    st.write("")  
 
