@@ -3,6 +3,7 @@ import yfinance as yf
 import pandas as pd
 from datetime import datetime
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 
 st.markdown(
@@ -40,8 +41,9 @@ st.markdown(
 def cargar_datos(tickers, inicio, fin):
     tickers = tickers.upper()
     data = yf.download(tickers, start=inicio, end=fin)
-    data['Retornos'] = data['Close'].pct_change()
     data.columns = data.columns.droplevel(1)
+    data.dropna(subset=["Open", "High", "Low", "Close"], inplace=True)
+
     return data
 
 # Configuración de página
@@ -73,7 +75,16 @@ with col1:
 
     if not df.empty:
 
-        fig = go.Figure()
+        #fig = go.Figure()
+
+        fig = make_subplots(
+            rows=2,
+            cols=1,
+            shared_xaxes=True,
+            vertical_spacing=0.02,
+            row_heights=[0.7, 0.3]  # 70% precio, 30% volumen
+            #subplot_titles=[f"{ticker.upper()}", "Volume"]
+        )
 
         fig.update_layout(
             template="plotly_dark",
@@ -87,12 +98,16 @@ with col1:
                 color="white",
                 fixedrange=False,
                 rangeslider=dict(visible=True),
-                type='date'
+                type='date',
+                rangebreaks=[
+                    dict(bounds=["sat", "mon"]), 
+                    dict(values=["2024-01-01", "2024-12-25"])
+                ]
             ),
             yaxis=dict(
                 gridcolor="#333333",
                 zerolinecolor="#444444",
-                title="Close price",
+                title="Price",
                 color="white",
                 autorange=True,
                 fixedrange=False,
@@ -113,8 +128,16 @@ with col1:
         df["MA_20"] = df["Close"].rolling(window=20).mean()
         df["MA_50"] = df["Close"].rolling(window=50).mean()
 
-  
+        #insertamos colores para hacer un gráfico de volúmen
+        colors = ['green' if df['Close'][i] >= df['Open'][i] else 'red' for i in range(len(df))]
 
+        fig.add_trace(go.Bar(
+            x=df.index,
+            y=df['Volume'],
+            marker_color=colors,
+            name="Volume",
+            opacity=0.5
+        ), row=2, col=1)
         # Agregar trazas según selección
         if show_candles:
             fig.add_trace(go.Candlestick(
@@ -126,7 +149,7 @@ with col1:
                 increasing_line_color='green',
                 decreasing_line_color='red',
                 name='Candles'
-            ))
+            ), row=1, col=1)
         else:
             fig.add_trace(go.Scatter(
                 x=df.index,
@@ -134,7 +157,7 @@ with col1:
                 mode='lines',
                 name='Close price',
                 line=dict(color="#00ffcc", width=1)
-            ))
+            ), row=1, col=1)
 
         if show_ma10:
             fig.add_trace(go.Scatter(
