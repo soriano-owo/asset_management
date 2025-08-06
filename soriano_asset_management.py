@@ -82,11 +82,14 @@ with col1:
             cols=1,
             shared_xaxes=True,
             vertical_spacing=0.02,
-            row_heights=[0.7, 0.3]  # 70% precio, 30% volumen
+            row_heights=[0.8, 0.2]  # 70% precio, 30% volumen
             #subplot_titles=[f"{ticker.upper()}", "Volume"]
         )
 
         fig.update_layout(
+            height=540,
+            margin=dict(t=50, b=50),
+            showlegend=True,
             template="plotly_dark",
             plot_bgcolor="#1e1e1e",
             paper_bgcolor="#1e1e1e",
@@ -97,7 +100,7 @@ with col1:
                 title="Date",
                 color="white",
                 fixedrange=False,
-                rangeslider=dict(visible=True),
+                rangeslider=dict(visible=False),
                 type='date',
                 rangebreaks=[
                     dict(bounds=["sat", "mon"]), 
@@ -109,17 +112,30 @@ with col1:
                 zerolinecolor="#444444",
                 title="Price",
                 color="white",
+                side='right',
                 autorange=True,
                 fixedrange=False,
-                automargin=True,
+                automargin=True
             ),
             legend=dict(
                 bgcolor="rgba(0,0,0,0)",
-                font=dict(color="white")
+                font=dict(color="white"),
+                orientation = "v",
+                yanchor="top",
+                y=1,
+                xanchor="left",
+                x=0               
             ),
             title=dict(
                 text=f"{ticker.upper()}",
                 font=dict(color="white")
+            ),
+            yaxis2=dict(
+                title='Volume',
+                side='right',
+                #titlefont=dict(color='white'),
+                tickfont=dict(color='white'),
+                showgrid=False
             )
         )
 
@@ -136,8 +152,10 @@ with col1:
             y=df['Volume'],
             marker_color=colors,
             name="Volume",
-            opacity=0.5
+            opacity=0.5,
+            yaxis='y2'
         ), row=2, col=1)
+
         # Agregar trazas según selección
         if show_candles:
             fig.add_trace(go.Candlestick(
@@ -150,13 +168,14 @@ with col1:
                 decreasing_line_color='red',
                 name='Candles'
             ), row=1, col=1)
+
         else:
             fig.add_trace(go.Scatter(
                 x=df.index,
                 y=df['Close'],
                 mode='lines',
                 name='Close price',
-                line=dict(color="#00ffcc", width=1)
+                line=dict(color="#00ffcc", width=2)
             ), row=1, col=1)
 
         if show_ma10:
