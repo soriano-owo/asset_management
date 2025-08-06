@@ -97,7 +97,7 @@ with col1:
             xaxis=dict(
                 gridcolor="#333333",
                 zerolinecolor="#444444",
-                title="Date",
+                #title="Date",
                 color="white",
                 fixedrange=False,
                 rangeslider=dict(visible=False),
