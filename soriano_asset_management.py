@@ -151,7 +151,7 @@ with col1:
             y=df['Volume'],
             marker_color=colors,
             name="Volume",
-            opacity=0.5,
+            opacity=0.6,
             yaxis='y2'
         ), row=2, col=1)
 
