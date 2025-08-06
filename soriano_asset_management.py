@@ -82,8 +82,7 @@ with col1:
             cols=1,
             shared_xaxes=True,
             vertical_spacing=0.02,
-            row_heights=[0.8, 0.2]  # 70% precio, 30% volumen
-            #subplot_titles=[f"{ticker.upper()}", "Volume"]
+            row_heights=[0.8, 0.2]  
         )
 
         fig.update_layout(
@@ -144,7 +143,7 @@ with col1:
         df["MA_20"] = df["Close"].rolling(window=20).mean()
         df["MA_50"] = df["Close"].rolling(window=50).mean()
 
-        #insertamos colores para hacer un gráfico de volúmen
+        #insertamos colores para hacer un gráfico de vol
         colors = ['green' if df['Close'][i] >= df['Open'][i] else 'red' for i in range(len(df))]
 
         fig.add_trace(go.Bar(
@@ -156,7 +155,6 @@ with col1:
             yaxis='y2'
         ), row=2, col=1)
 
-        # Agregar trazas según selección
         if show_candles:
             fig.add_trace(go.Candlestick(
                 x=df.index,
@@ -208,7 +206,6 @@ with col1:
         placeholder.plotly_chart(fig, use_container_width=True)
     else: 
         st.warning("Ticker does not exist or dates are incorrect :(")
-
 
 with col2:
     st.write("")  
