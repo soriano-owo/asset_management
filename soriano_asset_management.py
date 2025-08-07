@@ -66,6 +66,7 @@ with col1:
     show_ma20 = st.checkbox("MA 20", value=True)
     show_ma50 = st.checkbox("MA 50", value=True)
     show_candles = st.checkbox("Candles", value=True)
+    bollinger = st.checkbox("Bollinger bands", value=False)    
 
     ticker = st.text_input("Ticker:", value="VOO", key="ticker_input")
     start_date = st.date_input("Start date", pd.to_datetime("2024-01-01"))
@@ -142,6 +143,11 @@ with col1:
         df["MA_10"] = df["Close"].rolling(window=10).mean()
         df["MA_20"] = df["Close"].rolling(window=20).mean()
         df["MA_50"] = df["Close"].rolling(window=50).mean()
+        df["MA_20"] = df["Close"].rolling(window=20).mean()
+
+        #cálculos de las bandas de Bollinger.
+        df["Upper_BB"] = df["MA_20"] + 2 * df["Close"].rolling(window=20).std()
+        df["Lower_BB"] = df["MA_20"] - 2 * df["Close"].rolling(window=20).std()
 
         #insertamos colores para hacer un gráfico de vol
         colors = ['green' if df['Close'][i] >= df['Open'][i] else 'red' for i in range(len(df))]
@@ -202,6 +208,26 @@ with col1:
                 name="MA 50",
                 line=dict(color="#483de1", width=0.8)
             ))
+        if bollinger:
+            fig.add_trace(go.Scatter(
+                x=df.index,
+                y=df["Upper_BB"],
+                line=dict(color="#4ec7ff", width=0.8),
+                name="Upper BB",
+                hoverinfo='skip',
+                showlegend=True
+            ))
+            fig.add_trace(go.Scatter(
+                x=df.index,
+                y=df["Lower_BB"],
+                line=dict(color="#4ec7ff", width=0.8),
+                name="Lower BB",
+                hoverinfo='skip',
+                fill='tonexty',  
+                fillcolor="rgba(10, 198, 113, 0.05)",
+                showlegend=True
+            ))            
+
 
         placeholder.plotly_chart(fig, use_container_width=True)
     else: 
@@ -209,4 +235,6 @@ with col1:
 
 with col2:
     st.write("")  
+
+
 
